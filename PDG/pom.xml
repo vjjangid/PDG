@@ -4,6 +4,17 @@
   <artifactId>PDG</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
+  	<dependencies>
+  		
+  		<!-- https://mvnrepository.com/artifact/com.github.javaparser/javaparser-core -->
+		<dependency>
+    		<groupId>com.github.javaparser</groupId>
+    		<artifactId>javaparser-core</artifactId>
+    		<version>3.16.1</version>
+		</dependency>
+  	
+  	</dependencies>
+  
  	<properties>
   		<maven.compiler.target>1.13</maven.compiler.target>
   		<maven.compiler.source>1.13</maven.compiler.source>
