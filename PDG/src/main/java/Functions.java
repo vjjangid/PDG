@@ -13,17 +13,27 @@ import com.github.javaparser.Position;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+/*
+ * 		What do we need to check whether the two function are same
+		1.) return_type == Matters
+		2.) function_name == Doesn't matter
+		3.) parameters and its type == Matters
+*/
 
 class Function_Details
 {
 	Node Node_Address;
-	String name = "";
-	int start = -1;
-	int end = -11;
+	String func_name = ""; //Name of function
+	int start = -1; //For range or size of function in real code ==> start range
+	int end = -11; // end range
+	String return_Type = ""; //return type of function ==> last second node of root node or further splited function main node
+	List<Parameter> func_Parameters; //List for parameters of function
 }
 
 public class Functions extends VoidVisitorAdapter<Void> {
@@ -39,7 +49,7 @@ public class Functions extends VoidVisitorAdapter<Void> {
 	{
 		for(Function_Details i: functions)
 		{
-			System.out.println("Function name :: " + i.name + " , Function Start Line :: " +i.start + " , Function End Line :: " +i.end);
+			System.out.println("Function name :: " + i.func_name + " , Function Start Line :: " +i.start + " , Function End Line :: " +i.end);
 		}
 	}
 	
@@ -54,7 +64,7 @@ public class Functions extends VoidVisitorAdapter<Void> {
 		super.visit(md, arg);
 		Function_Details temp = new Function_Details();
 		temp.Node_Address = md;
-		temp.name = md.getNameAsString();
+		temp.func_name = md.getNameAsString();
 		
 		//start.line , start.column
 		Optional<Position> start = md.getBegin();
@@ -64,6 +74,15 @@ public class Functions extends VoidVisitorAdapter<Void> {
 		Optional<Position> end = md.getEnd();
 		Position posEnd = end.get();
 		temp.end = posEnd.line;
+		
+		//return type of function
+		temp.func_Parameters = md.getParameters();
+		
+		for(Node i: temp.func_Parameters)
+		{
+			System.out.println(i);
+		}
+		temp.return_Type = md.getTypeAsString();
 		
 		functions.add(temp);
 		
